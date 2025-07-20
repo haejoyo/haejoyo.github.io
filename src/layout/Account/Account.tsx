@@ -1,23 +1,43 @@
 import styled from '@emotion/styled';
 import data from 'data.json';
-import Host from '../Contact/Host.tsx';
+import AccountWrap from './AccountWrap.tsx';
 import Accordion from '@/components/Accordion.tsx';
 import { Caption, Paragraph } from '@/components/Text.tsx';
+
 
 const Account = () => {
   const { hostInfo } = data;
   return (
     <HostInfoWrapper>
-      <Paragraph>{hostInfo.message}</Paragraph>
+      {hostInfo.map((host) => {
+        return (
+          <Accordion title={host.host} key={host.host}>
+            {host.accountInfo.map((account) => {
+              return (
+                <AccountWrap
+                  key={account.name}
+                  name={account.name}
+                  relation={account.relation}
+                  bank={account.bank}
+                  account={account.account}
+                  kakaopayAccount={account.kakaopayAccount}
+                  tossAccount={account.tossAccount}
+                />
+              );
+            })}
+          </Accordion>
+        );
+      })}
     </HostInfoWrapper>
   );
 };
 
 export default Account;
 
+
 const HostInfoWrapper = styled.div`
   display: flex;
+  width: 90%;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  padding: 20px;
 `;
